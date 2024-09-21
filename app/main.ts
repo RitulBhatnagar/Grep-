@@ -10,6 +10,8 @@ function matchPattern(inputLine: string, pattern: string): boolean {
     return inputLine.includes(pattern);
   } else if (pattern === "\\d") {
     return inputLine.match(/\d/) !== null;
+  } else if (pattern === "\\w") {
+    return inputLine.match(/\w/) !== null;
   }
 }
 
