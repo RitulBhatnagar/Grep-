@@ -35,6 +35,9 @@ function matchPattern(inputLine: string, pattern: string): boolean {
     return /\d\d\d apple/g.test(inputLine);
   } else if (pattern === "\\d apple") {
     return /\d apple/g.test(inputLine);
+  } else if (pattern[0] === "^") {
+    const newPattern = pattern.slice(1);
+    return newPattern === inputLine;
   }
 }
 
