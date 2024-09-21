@@ -7,11 +7,14 @@ const inputLine: string = await Bun.stdin.text();
 
 function matchPattern(inputLine: string, pattern: string): boolean {
   if (pattern.length === 1) {
-    return inputLine.includes(pattern);
+    return inputLine.match(pattern) !== null;
   } else if (pattern === "\\d") {
     return inputLine.match(/\d/) !== null;
   } else if (pattern === "\\w") {
     return inputLine.match(/\w/) !== null;
+  } else if (pattern.startsWith("[") && pattern.endsWith("]")) {
+    const newPattern = pattern.substring(1, pattern.length - 1);
+    return inputLine.includes(newPattern);
   }
 }
 
@@ -24,9 +27,9 @@ console.log("Logs from your program will appear here!");
 
 // Uncomment this block to pass the first stage
 if (matchPattern(inputLine, pattern)) {
-  // console.log("pattern matched");
+  console.log("pattern matched");
   process.exit(0);
 } else {
-  // console.log("pattern did not match");
+  console.log("pattern did not match");
   process.exit(1);
 }
