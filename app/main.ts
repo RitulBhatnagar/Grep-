@@ -5,13 +5,17 @@ const pattern = args[3];
 
 const inputLine: string = await Bun.stdin.text();
 
-function patternChecker(input) {
-  const inputString = input.split("");
-  if (inputString[0] === "d" && inputString[1].length > 0) {
-    return true;
-  }
-  return false;
+function sortString(input: string) {
+  // Convert the string to an array of characters
+  const charArray = input.split("");
+
+  // Sort the array of characters
+  charArray.sort();
+
+  // Join the sorted array back into a string
+  return charArray.join("");
 }
+
 function matchPattern(inputLine: string, pattern: string): boolean {
   if (pattern.includes("+")) {
     const parts = pattern.split("+");
@@ -52,8 +56,11 @@ function matchPattern(inputLine: string, pattern: string): boolean {
   } else if (pattern.includes("?")) {
     const parts = pattern.split("?");
     const prefix = parts[0];
-    const suffix = parts[1];
-    return inputLine.includes(prefix) && inputLine.includes(suffix);
+    const suffix = parts[1] || "";
+    const input = sortString(prefix + suffix);
+    const input2 = sortString(inputLine);
+
+    return input === input2;
   }
 }
 
