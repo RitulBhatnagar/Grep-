@@ -13,8 +13,8 @@ function matchPattern(inputLine: string, pattern: string): boolean {
   } else if (pattern === "\\w") {
     return inputLine.match(/\w/) !== null;
   } else if (pattern.startsWith("[") && pattern.endsWith("]")) {
-    const newPattern = pattern.substring(1, pattern.length - 1);
-    return inputLine.includes(newPattern);
+    const newPattern = pattern.slice(1, pattern.length - 1).split("");
+    return newPattern.some((c) => inputLine.includes(c));
   }
 }
 
