@@ -27,9 +27,9 @@ console.log("Logs from your program will appear here!");
 
 // Uncomment this block to pass the first stage
 if (matchPattern(inputLine, pattern)) {
-  console.log("pattern matched");
+  // console.log("pattern matched");
   process.exit(0);
 } else {
-  console.log("pattern did not match");
+  // console.log("pattern did not match");
   process.exit(1);
 }
