@@ -38,6 +38,9 @@ function matchPattern(inputLine: string, pattern: string): boolean {
   } else if (pattern[0] === "^") {
     const newPattern = pattern.slice(1);
     return newPattern === inputLine;
+  } else if (pattern[pattern.length - 1] === "$") {
+    const newPattern = pattern.slice(0, pattern.length - 1);
+    return newPattern === inputLine;
   }
 }
 
