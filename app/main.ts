@@ -14,6 +14,13 @@ function matchPattern(inputLine: string, pattern: string): boolean {
     return inputLine.match(/\w/) !== null;
   } else if (pattern.startsWith("[") && pattern.endsWith("]")) {
     const newPattern = pattern.slice(1, pattern.length - 1).split("");
+
+    // check for negative patterns
+    if (newPattern[0] === "^") {
+      newPattern.shift();
+      return !newPattern.some((c) => inputLine.includes(c));
+    }
+
     return newPattern.some((c) => inputLine.includes(c));
   }
 }
@@ -27,9 +34,9 @@ console.log("Logs from your program will appear here!");
 
 // Uncomment this block to pass the first stage
 if (matchPattern(inputLine, pattern)) {
-  // console.log("pattern matched");
+  console.log("pattern matched");
   process.exit(0);
 } else {
-  // console.log("pattern did not match");
+  console.log("pattern did not match");
   process.exit(1);
 }
