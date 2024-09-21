@@ -5,6 +5,13 @@ const pattern = args[3];
 
 const inputLine: string = await Bun.stdin.text();
 
+function patternChecker(input) {
+  const inputString = input.split("");
+  if (inputString[0] === "d" && inputString[1].length > 0) {
+    return true;
+  }
+  return false;
+}
 function matchPattern(inputLine: string, pattern: string): boolean {
   if (pattern.length === 1) {
     return inputLine.match(pattern) !== null;
@@ -22,6 +29,13 @@ function matchPattern(inputLine: string, pattern: string): boolean {
     }
 
     return newPattern.some((c) => inputLine.includes(c));
+  } else {
+    const regexPattern = pattern
+      .replace(/\\d/g, "\\d")
+      .replace(/\\w/g, "\\w")
+      .replace(/\\s/g, "\\s");
+    const regex = new RegExp(regexPattern);
+    return regex.test(inputLine);
   }
 }
 
