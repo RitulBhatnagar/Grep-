@@ -49,9 +49,11 @@ function matchPattern(inputLine: string, pattern: string): boolean {
   } else if (pattern[pattern.length - 1] === "$") {
     const newPattern = pattern.slice(0, pattern.length - 1);
     return newPattern === inputLine;
-  } else if (pattern[pattern.length - 1] === "?") {
-    const newPattern = pattern.slice(0, pattern.length - 1).split("");
-    return newPattern.some((c) => inputLine.includes(c));
+  } else if (pattern.includes("?")) {
+    const parts = pattern.split("?");
+    const prefix = parts[0];
+    const suffix = parts[1];
+    return inputLine.includes(prefix) && inputLine.includes(suffix);
   }
 }
 
