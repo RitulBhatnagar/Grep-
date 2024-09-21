@@ -79,6 +79,10 @@ function matchPattern(inputLine: string, pattern: string): boolean {
 
     const newInput = input.split("");
     return newInput.every((c) => inputLine.includes(c));
+  } else if (pattern.startsWith("(") && pattern.endsWith(")")) {
+    const newPattern = pattern.slice(1, pattern.length - 1).split("|");
+    console.log(newPattern);
+    return newPattern.some((c) => inputLine === c);
   }
 }
 
