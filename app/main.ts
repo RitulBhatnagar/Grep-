@@ -59,8 +59,26 @@ function matchPattern(inputLine: string, pattern: string): boolean {
     const suffix = parts[1] || "";
     const input = sortString(prefix + suffix);
     const input2 = sortString(inputLine);
-
     return input === input2;
+  } else if (pattern.includes(".")) {
+    if (/[^a-zA-Z0-9]/.test(inputLine)) {
+      return false;
+    }
+
+    // if length is not equal
+    if (pattern.length != inputLine.length) {
+      return false;
+    }
+    const parts = pattern.split(".");
+    const prefix = parts[0] || "";
+    const suffix = parts[1] || "";
+
+    const input = prefix + suffix;
+
+    //check if any special characters is present or not
+
+    const newInput = input.split("");
+    return newInput.every((c) => inputLine.includes(c));
   }
 }
 
