@@ -34,7 +34,7 @@ function matchPattern(inputLine: string, pattern: string): boolean {
       .replace(/\\d/g, "\\d")
       .replace(/\\w/g, "\\w")
       .replace(/\\s/g, "\\s");
-    const regex = new RegExp(regexPattern);
+    const regex = new RegExp(regexPattern, "g");
     return regex.test(inputLine);
   }
 }
