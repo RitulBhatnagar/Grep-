@@ -79,10 +79,26 @@ function matchPattern(inputLine: string, pattern: string): boolean {
 
     const newInput = input.split("");
     return newInput.every((c) => inputLine.includes(c));
-  } else if (pattern.startsWith("(") && pattern.endsWith(")")) {
-    const newPattern = pattern.slice(1, pattern.length - 1).split("|");
-    console.log(newPattern);
-    return newPattern.some((c) => inputLine === c);
+  } else if (pattern.includes("(") && pattern.includes(")")) {
+    const fixedPart = pattern.slice(0, pattern.indexOf("(")).trim();
+    const lastPart = pattern.slice(pattern.lastIndexOf(")") + 1).trim();
+    const startIdx = pattern.indexOf("(");
+    const endIdx = pattern.indexOf(")");
+
+    // Extract the part inside parentheses for variable matching
+    const variablePart = pattern.slice(startIdx + 1, endIdx).split("|");
+    if (lastPart.trim() != "" || fixedPart.trim() != "") {
+      variablePart.push(lastPart);
+      variablePart.unshift(fixedPart);
+    }
+
+    // Check if the remaining input matches any of the variable patterns (also case-insensitive)
+    const matchFound = variablePart.some(
+      (c) => inputLine.toLowerCase() === c.toLowerCase()
+    );
+
+    // Return true if a match is found
+    return matchFound;
   }
 }
 
