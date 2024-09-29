@@ -17,13 +17,13 @@ function sortString(input: string) {
 }
 
 function matchPattern(inputLine: string, pattern: string): boolean {
-  if (pattern.includes("+")) {
-    const parts = pattern.split("+");
-    const prefix = parts[0];
-    const suffix = parts[1];
-    const regex = new RegExp(prefix + "+"); // Create regex for the prefix followed by one or more
-    return regex.test(inputLine) && inputLine.includes(suffix);
-  }
+  // if (pattern.includes("+")) {
+  //   const parts = pattern.split("+");
+  //   const prefix = parts[0];
+  //   const suffix = parts[1];
+  //   const regex = new RegExp(prefix + "+"); // Create regex for the prefix followed by one or more
+  //   return regex.test(inputLine) && inputLine.includes(suffix);
+  // }
 
   if (pattern.length === 1) {
     return inputLine.match(pattern) !== null;
