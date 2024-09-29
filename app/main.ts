@@ -23,13 +23,24 @@ function matchPattern(inputLine: string, pattern: string): boolean {
   //   const suffix = parts[1];
   //   const regex = new RegExp(prefix + "+"); // Create regex for the prefix followed by one or more
   //   return regex.test(inputLine) && inputLine.includes(suffix);
-  // }
+  // }\
 
-  if (pattern.length === 1) {
+  if (pattern.includes("\\1")) {
+    console.log("Entering backreference case");
+    try {
+      const regex = new RegExp(pattern);
+      const result = regex.test(inputLine);
+      return result;
+    } catch (error) {
+      console.error("Error creating regex:", error);
+      return false;
+    }
+  } else if (pattern.length === 1) {
     return inputLine.match(pattern) !== null;
   } else if (pattern === "\\d") {
     return inputLine.match(/\d/) !== null;
   } else if (pattern === "\\w") {
+    console.log("enter");
     return inputLine.match(/\w/) !== null;
   } else if (pattern.startsWith("[") && pattern.endsWith("]")) {
     const newPattern = pattern.slice(1, pattern.length - 1).split("");
@@ -47,8 +58,14 @@ function matchPattern(inputLine: string, pattern: string): boolean {
     return /\d\d\d apple/g.test(inputLine);
   } else if (pattern === "\\d apple") {
     return /\d apple/g.test(inputLine);
-  } else if (pattern[0] === "^") {
+  } else if (
+    pattern[0] === "^" &&
+    !pattern.includes("\\1") &&
+    !pattern.includes(")") &&
+    !pattern.includes("(")
+  ) {
     const newPattern = pattern.slice(1);
+    console.log(newPattern, inputLine);
     return newPattern === inputLine;
   } else if (pattern[pattern.length - 1] === "$") {
     const newPattern = pattern.slice(0, pattern.length - 1);
@@ -79,25 +96,16 @@ function matchPattern(inputLine: string, pattern: string): boolean {
 
     const newInput = input.split("");
     return newInput.every((c) => inputLine.includes(c));
-  } else if (pattern.includes("\\1")) {
-    const regexMatch = pattern.match(/\(.*?\)/);
-    if (!regexMatch) return false;
-    const regexPart = regexMatch[0];
-
-    const regexPattern = pattern.replace(/\((.*?)\)\\1/, `(${regexPart})\\1`);
-    // console.log("regexPattern", regexPattern);
-    const regex = new RegExp(`^${regexPattern}$`);
-    // console.log("regex", regex);
-
-    return regex.test(inputLine);
   } else if (pattern.includes("+")) {
     const parts = pattern.split("+");
+    console.log(parts);
     return parts.filter((x) => !inputLine.includes(x)).length === 0;
   } else if (pattern.includes("(") && pattern.includes(")")) {
     const fixedPart = pattern.slice(0, pattern.indexOf("(")).trim();
     const lastPart = pattern.slice(pattern.lastIndexOf(")") + 1).trim();
     const startIdx = pattern.indexOf("(");
     const endIdx = pattern.indexOf(")");
+    console.log("endIdx", endIdx);
 
     // Extract the part inside parentheses for variable matching
     let variablePart = pattern.slice(startIdx + 1, endIdx).split("|");
@@ -115,6 +123,8 @@ function matchPattern(inputLine: string, pattern: string): boolean {
 
     // Return true if a match is found
     return matchFound;
+  } else {
+    return false;
   }
 }
 
