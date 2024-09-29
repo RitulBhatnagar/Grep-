@@ -91,8 +91,6 @@ function matchPattern(inputLine: string, pattern: string): boolean {
       variablePart = variablePart.map((c) => {
         return `${fixedPart} ${c} ${lastPart}`.trim();
       });
-      // variablePart.push(lastPart);
-      // variablePart.push(fixedPart);
     }
     console.log(variablePart);
 
@@ -103,6 +101,20 @@ function matchPattern(inputLine: string, pattern: string): boolean {
 
     // Return true if a match is found
     return matchFound;
+  } else if (pattern.includes("\\1")) {
+    const regexMatch = pattern.match(/\(.*?\)/);
+    console.log("🚀 ~ matchPattern ~ regexMatch:", regexMatch);
+    if (!regexMatch) return false;
+    const regexPart = regexMatch[0];
+
+    const regexPattern = pattern.replace(/\((.*?)\)\\1/, `(${regexPart})\\1`);
+
+    const regex = new RegExp(`^${regexPattern}$`);
+
+    return regex.test(inputLine);
+  } else if (pattern.includes("+")) {
+    const parts = pattern.split("+");
+    return parts.filter((x) => !inputLine.includes(x)).length === 0;
   }
 }
 
