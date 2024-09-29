@@ -86,11 +86,15 @@ function matchPattern(inputLine: string, pattern: string): boolean {
     const endIdx = pattern.indexOf(")");
 
     // Extract the part inside parentheses for variable matching
-    const variablePart = pattern.slice(startIdx + 1, endIdx).split("|");
+    let variablePart = pattern.slice(startIdx + 1, endIdx).split("|");
     if (lastPart.trim() != "" || fixedPart.trim() != "") {
-      variablePart.push(lastPart);
-      variablePart.unshift(fixedPart);
+      variablePart = variablePart.map((c) => {
+        return `${fixedPart} ${c} ${lastPart}`.trim();
+      });
+      // variablePart.push(lastPart);
+      // variablePart.push(fixedPart);
     }
+    console.log(variablePart);
 
     // Check if the remaining input matches any of the variable patterns (also case-insensitive)
     const matchFound = variablePart.some(
