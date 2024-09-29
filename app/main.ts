@@ -79,6 +79,20 @@ function matchPattern(inputLine: string, pattern: string): boolean {
 
     const newInput = input.split("");
     return newInput.every((c) => inputLine.includes(c));
+  } else if (pattern.includes("\\1")) {
+    const regexMatch = pattern.match(/\(.*?\)/);
+    if (!regexMatch) return false;
+    const regexPart = regexMatch[0];
+
+    const regexPattern = pattern.replace(/\((.*?)\)\\1/, `(${regexPart})\\1`);
+    // console.log("regexPattern", regexPattern);
+    const regex = new RegExp(`^${regexPattern}$`);
+    // console.log("regex", regex);
+
+    return regex.test(inputLine);
+  } else if (pattern.includes("+")) {
+    const parts = pattern.split("+");
+    return parts.filter((x) => !inputLine.includes(x)).length === 0;
   } else if (pattern.includes("(") && pattern.includes(")")) {
     const fixedPart = pattern.slice(0, pattern.indexOf("(")).trim();
     const lastPart = pattern.slice(pattern.lastIndexOf(")") + 1).trim();
@@ -101,20 +115,6 @@ function matchPattern(inputLine: string, pattern: string): boolean {
 
     // Return true if a match is found
     return matchFound;
-  } else if (pattern.includes("\\1")) {
-    const regexMatch = pattern.match(/\(.*?\)/);
-    console.log("🚀 ~ matchPattern ~ regexMatch:", regexMatch);
-    if (!regexMatch) return false;
-    const regexPart = regexMatch[0];
-
-    const regexPattern = pattern.replace(/\((.*?)\)\\1/, `(${regexPart})\\1`);
-
-    const regex = new RegExp(`^${regexPattern}$`);
-
-    return regex.test(inputLine);
-  } else if (pattern.includes("+")) {
-    const parts = pattern.split("+");
-    return parts.filter((x) => !inputLine.includes(x)).length === 0;
   }
 }
 
