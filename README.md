@@ -1,38 +1,92 @@
-[![progress-banner](https://backend.codecrafters.io/progress/grep/3af52d44-f2d4-4f82-8ae5-b596e29e9f35)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
+# TypeScript Grep Implementation
 
-This is a starting point for TypeScript solutions to the
-["Build Your Own grep" Challenge](https://app.codecrafters.io/courses/grep/overview).
+This project is a TypeScript implementation of the `grep` command-line utility. It provides functionality to search for patterns in text using regular expressions.
 
-[Regular expressions](https://en.wikipedia.org/wiki/Regular_expression)
-(Regexes, for short) are patterns used to match character combinations in
-strings. [`grep`](https://en.wikipedia.org/wiki/Grep) is a CLI tool for
-searching using Regexes.
+## Table of Contents
 
-In this challenge you'll build your own implementation of `grep`. Along the way
-we'll learn about Regex syntax, how parsers/lexers work, and how regular
-expressions are evaluated.
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Examples](#examples)
+- [Contributing](#contributing)
+- [License](#license)
 
-**Note**: If you're viewing this repo on GitHub, head over to
-[codecrafters.io](https://codecrafters.io) to try the challenge.
+## Features
 
-# Passing the first stage
+- Basic pattern matching
+- Support for regular expressions
+- Matches whole lines or parts of lines
+- Command-line interface similar to the standard `grep` utility
 
-The entry point for your `grep` implementation is in `app/main.ts`. Study and
-uncomment the relevant code, and push your changes to pass the first stage:
+## Prerequisites
 
-```sh
-git commit -am "pass 1st stage" # any msg
-git push origin master
+- Node.js (version 12 or higher)
+- npm (usually comes with Node.js)
+
+## Installation
+
+1. Clone the repository:
+
+   ```
+   git clone https://github.com/yourusername/typescript-grep.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```
+   cd typescript-grep
+   ```
+
+3. Install dependencies:
+
+   ```
+   npm install
+   ```
+
+4. Build the project:
+   ```
+   npm run build
+   ```
+
+## Usage
+
+The basic syntax for using this grep implementation is:
+
+```
+./your_program.sh [OPTIONS] PATTERN [FILE...]
 ```
 
-Time to move on to the next stage!
+If no FILE is given, it reads from standard input.
 
-# Stage 2 & beyond
+### Options
 
-Note: This section is for stages 2 and beyond.
+- `-E`: Use extended regular expressions
+- (Add other options as implemented in your program)
 
-1. Ensure you have `bun (1.1)` installed locally
-1. Run `./your_program.sh` to run your program, which is implemented in
-   `app/main.ts`.
-1. Commit your changes and run `git push origin master` to submit your solution
-   to CodeCrafters. Test output will be streamed to your terminal.
+## Examples
+
+1. Search for a simple pattern in a file:
+
+   ```
+   ./your_program.sh "pattern" file.txt
+   ```
+
+2. Use a regular expression with the -E option:
+
+   ```
+   ./your_program.sh -E "^(\w+) starts and ends with \1$" file.txt
+   ```
+
+3. Read from standard input:
+   ```
+   echo "this starts and ends with this" | ./your_program.sh -E "^(\w+) starts and ends with \1$"
+   ```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
